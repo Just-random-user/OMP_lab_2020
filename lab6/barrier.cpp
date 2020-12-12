@@ -23,9 +23,9 @@ int main()
 	double under_res = 1;
 	double res_thr = 1;
 	clock_t start = clock();
-#pragma omp parallel
+#pragma omp parallel private(i) firstprivate(res_thr, under_res)
 	{
-#pragma omp for private(i) firstprivate(res_thr,under_res)
+#pragma omp for
 		for (i = 0; i < size; i++)
 		{
 			if (A[i] % 2 == 0)
@@ -44,9 +44,9 @@ int main()
 				res_thr *= under_res;
 			}
 		}
+#pragma omp critical
+		res *= res_thr;
 	}
-#pragma omp barrier
-	res *= res_thr;
 	clock_t stop = clock();
 	std::cout << "Passed time: " << double((stop - start) * 1000) / CLOCKS_PER_SEC << "ms";
 }
