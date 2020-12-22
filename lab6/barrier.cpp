@@ -31,7 +31,7 @@ int main()
 			if (A[i] % 2 == 0)
 			{
 				if (C[i])
-					under_res = B[i] / C[i];
+					under_res = double(B[i]) / C[i];
 				else
 					continue;
 			}
@@ -41,10 +41,10 @@ int main()
 			}
 			if (under_res)
 			{
-				res_thr *= under_res;
+				res_thr *= double(under_res);
 			}
 		}
-#pragma omp critical
+#pragma omp barrier
 		res *= res_thr;
 	}
 	clock_t stop = clock();
@@ -55,7 +55,7 @@ int* initialize(int* arr, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
-		arr[i] = rand();
+		arr[i] = rand()/100;
 	}
 	return arr;
 }
